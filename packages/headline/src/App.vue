@@ -57,8 +57,8 @@ watch([isOpen], () => {
     :style="isOpen ? `min-height: ${height + SHADOW_BOTTOM_SIZE}px` : undefined">
     <SbTextField id="headline-input" v-model="headline" />
     <label for="headline-input">{{ plugin.data?.options.textLabel || "Text" }}</label>
-    <SbSelect render-on-open @show="isOpen.value = true" @hide="isOpen.value = false" filterable input-id="seo-input"
-      v-model="seo" :options="HEADLINE_OPTIONS" />
+    <SbSelect render-on-open @show="isOpen = true" @hide="isOpen = false" filterable input-id="seo-input" v-model="seo"
+      :options="HEADLINE_OPTIONS" />
     <label for="seo-input">{{ plugin.data?.options.seoLabel || "SEO" }}</label>
   </div>
 </template>
