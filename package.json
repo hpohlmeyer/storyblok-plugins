@@ -9,7 +9,8 @@
   "scripts": {
     "add-plugin": "npx @storyblok/field-plugin-cli@latest add --dir \"./packages\" --structure monorepo",
     "lint": "eslint --ext .js .",
-    "format": "prettier . --write"
+    "format": "prettier . --write",
+    "build": "vite build"
   },
   "devDependencies": {
     "@types/node": "18.19.85",
