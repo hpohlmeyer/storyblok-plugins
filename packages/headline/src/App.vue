@@ -7,9 +7,9 @@ import * as z from "zod";
 
 const seoOptions = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] as const;
 
-// Initialize the plugin
-// No need to validate the data, because the fields do not allow to input anything invalid
 const plugin = useFieldPlugin<{ headline: string; seo: typeof seoOptions[number] } | ''>({
+  // Validation is needed, because you could set an
+  // invalid default value, when using the plugin.
   validateContent(content: unknown) {
     if (content === '') {
       return { content };
@@ -25,7 +25,6 @@ const plugin = useFieldPlugin<{ headline: string; seo: typeof seoOptions[number]
       : { content: '', error: z.prettifyError(parsed.error) };
   }
 });
-plugin.actions?.setPreviewDimension
 
 // Use separate refs for the input fields, because the
 // storyblok component typings are bad.
