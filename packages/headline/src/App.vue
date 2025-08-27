@@ -5,9 +5,11 @@ import { SbSelect, SbTextField } from '@storyblok/design-system'
 import { useFieldPlugin } from '@storyblok/field-plugin/vue3'
 import * as z from "zod";
 
-const seoOptions = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] as const;
+const SHADOW_BOTTOM_SIZE = 17;
+const SEO_OPTIONS = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] as const;
+const HEADLINE_OPTIONS = SEO_OPTIONS.map((value) => ({ label: value.toUpperCase(), value }));
 
-const plugin = useFieldPlugin<{ headline: string; seo: typeof seoOptions[number] } | ''>({
+const plugin = useFieldPlugin<{ headline: string; seo: typeof SEO_OPTIONS[number] } | ''>({
   // Validation is needed, because you could set an
   // invalid default value, when using the plugin.
   validateContent(content: unknown) {
@@ -17,7 +19,7 @@ const plugin = useFieldPlugin<{ headline: string; seo: typeof seoOptions[number]
 
     const parsed = z.object({
       headline: z.string().min(10),
-      seo: z.enum(seoOptions),
+      seo: z.enum(SEO_OPTIONS),
     }).safeParse(content);
 
     return parsed.success
@@ -30,7 +32,7 @@ const plugin = useFieldPlugin<{ headline: string; seo: typeof seoOptions[number]
 // storyblok component typings are bad.
 const content = plugin.data?.content;
 const headline = ref(content ? content.headline : '');
-const seo = ref<typeof seoOptions[number]>(content ? content.seo : 'h2');
+const seo = ref<typeof SEO_OPTIONS[number]>(content ? content.seo : 'h2');
 const isOpen = ref<any>(false);
 
 // Construct the plugin content, whenever headline or seo change
@@ -48,9 +50,6 @@ const height = ref(document.body.scrollHeight);
 watch([isOpen], () => {
   nextTick(() => height.value = document.body.scrollHeight)
 });
-
-const SHADOW_BOTTOM_SIZE = 17;
-const HEADLINE_OPTIONS = Array.from({ length: 6 }, (_, index) => ({ label: `H${index + 1}`, value: `h${index + 1}` }));
 </script>
 
 <template>
