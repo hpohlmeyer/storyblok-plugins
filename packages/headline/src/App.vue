@@ -7,7 +7,13 @@ import * as z from "zod";
 
 const SHADOW_BOTTOM_SIZE = 17;
 const SEO_OPTIONS = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] as const;
+const DEFAULT_SEO_OPTION = 'h2' satisfies typeof SEO_OPTIONS[number];
 const HEADLINE_OPTIONS = SEO_OPTIONS.map((value) => ({ label: value.toUpperCase(), value }));
+
+function validateSeoOptions(value: unknown) {
+  const parsed = z.enum(SEO_OPTIONS).safeParse(value);
+  return parsed.success ? parsed.data : DEFAULT_SEO_OPTION;
+}
 
 const plugin = useFieldPlugin<{ headline: string; seo: typeof SEO_OPTIONS[number] } | ''>({
   // Validation is needed, because you could set an
@@ -32,7 +38,8 @@ const plugin = useFieldPlugin<{ headline: string; seo: typeof SEO_OPTIONS[number
 // storyblok component typings are bad.
 const content = plugin.data?.content;
 const headline = ref(content ? content.headline : '');
-const seo = ref<typeof SEO_OPTIONS[number]>(content ? content.seo : 'h2');
+const seoFallback = validateSeoOptions(plugin.data?.options.seoDefault);
+const seo = ref<typeof SEO_OPTIONS[number]>(content ? content.seo : seoFallback);
 const isOpen = ref<any>(false);
 
 // Construct the plugin content, whenever headline or seo change
@@ -65,8 +72,11 @@ watch([isOpen], () => {
 
 <style scoped>
 label {
+  word-break: break-word;
+  display: block;
   color: #636F81;
   font-size: 1.2rem;
+  line-height: 1.2;
 }
 
 .headline-wrapper {

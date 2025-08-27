@@ -7,6 +7,10 @@
     {
       "name": "seoLabel",
       "value": ""
+    },
+    {
+      "name": "seoDefault",
+      "value": "h2"
     }
   ]
 }
