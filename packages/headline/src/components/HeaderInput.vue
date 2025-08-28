@@ -4,7 +4,7 @@ export type FieldData = { headline: string; seo: typeof SEO_OPTIONS[number] } | 
 </script>
 
 <script setup lang="ts">
-import { nextTick, ref, watch, defineModel } from 'vue'
+import { nextTick, ref, watch, defineModel, useTemplateRef, onMounted } from 'vue'
 import { SbSelect, SbTextField } from '@storyblok/design-system'
 import * as z from "zod";
 
@@ -48,11 +48,36 @@ const height = ref(document.body.scrollHeight);
 watch([isOpen], () => {
   nextTick(() => height.value = document.body.scrollHeight)
 });
+
+// The auto-grow property on the SbTextField does not take the border
+// into account, which results in a 2px scrollbar that is always present.
+// Because of that we implement the growing logic ourselves.
+const textarea = useTemplateRef<typeof SbTextField>('textarea');
+function resizeTextArea() {
+  if (CSS.supports('field-sizing: content')) {
+    // Use native field sizing if available
+    return;
+  }
+
+  const field = textarea.value?.$refs.textfield;
+  if (!(field instanceof HTMLTextAreaElement)) return;
+
+  field.style.height = 'auto'
+  const { borderWidth } = getComputedStyle(field);
+  field.style.height = field.scrollHeight + (parseFloat(borderWidth) * 2) + 'px'
+}
+
+onMounted(() => {
+  // Make sure stylesheets have been loaded before
+  // measuring the text area.
+  document.addEventListener('load', resizeTextArea, { once: true })
+})
 </script>
 
 <template>
   <div className="headline-wrapper" :style="isOpen ? `min-height: ${height + SHADOW_BOTTOM_SIZE}px` : undefined">
-    <SbTextField id="headline-input" v-model="headline" />
+    <SbTextField ref="textarea" type="textarea" @input="resizeTextArea" :rows="1" id="headline-input"
+      v-model="headline" />
     <label for="headline-input">{{ props.textLabel || "Text" }}</label>
     <SbSelect @show="isOpen = true" @hide="isOpen = false" input-id="seo-input" v-model="seo"
       :options="HEADLINE_OPTIONS" />
@@ -85,5 +110,14 @@ label {
   grid-template-rows: auto auto;
   gap: 1rem;
   grid-auto-flow: column;
+}
+
+.headline-wrapper:deep(.sb-textfield__textarea) {
+  min-height: unset;
+  height: auto;
+  resize: none;
+
+  /* Use native field-resizing if available */
+  field-sizing: content;
 }
 </style>
