@@ -119,5 +119,9 @@ label {
 
   /* Use native field-resizing if available */
   field-sizing: content;
+
+  /* Overwrites the `.uk-form textarea` class injected by storyblok in the CMS. */
+  /* It conflicts with their design-system style reset. */
+  font-size: 1.4rem !important;
 }
 </style>
