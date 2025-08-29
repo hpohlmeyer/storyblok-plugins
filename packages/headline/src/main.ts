@@ -1,8 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-// import BlokInk from '@storyblok/design-system'
 import '@storyblok/design-system/dist/storyblok-design-system.css'
-// import './style.css'
 
 if (!document.querySelector('#app')) {
   // In production, `#app` may or may not exist.
