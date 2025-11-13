@@ -11,6 +11,18 @@
     {
       "name": "seoDefault",
       "value": "h2"
+    },
+    {
+      "name": "styleLabel",
+      "value": ""
+    },
+    {
+      "name": "styleDefault",
+      "value": "h2"
+    },
+    {
+      "name": "showStyle",
+      "value": "false"
     }
   ]
 }
