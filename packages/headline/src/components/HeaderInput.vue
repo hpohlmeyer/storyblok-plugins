@@ -64,8 +64,8 @@ const styleIsOpen = ref(false);
 
 // Construct the plugin state
 watchEffect(() => {
-  if (content.value === '') {
-    content.value === '';
+  if (text.value === '') {
+    content.value = '';
   } else if (styleShown.value) {
     const styleValue = (style.value === "default" || style.value === undefined) ? styleFallback.value : style.value;
     content.value = { text: text.value, element: element.value, style: styleValue };
@@ -119,7 +119,7 @@ const wrapperVariant = computed(() => styleShown.value ? 'headline-wrapper--wrap
     <label class="text-input__label" for="text-input">{{ props.textLabel || "Text" }}</label>
     <template v-if="styleShown">
       <SbSelect class="style-input" @show="styleIsOpen = true" @hide="styleIsOpen = false" input-id="style-input"
-        v-model="style" :options="STYLE_OPTIONS_KV" />
+        v-model="style" :options="[{ label: 'Default', value: 'default' }, ...STYLE_OPTIONS_KV]" />
       <label class="style-input__label" for="style-input">{{ props.styleLabel || "Style" }}</label>
     </template>
     <SbSelect class="element-input" @show="elementIsOpen = true" @hide="elementIsOpen = false" input-id="element-input"
