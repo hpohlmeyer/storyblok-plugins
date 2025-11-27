@@ -1,10 +1,7 @@
 export type FieldData = {
   text: string;
   element: ElementOption;
-  style?: {
-    value: StyleOption;
-    option: StyleInputOption;
-  };
+  style?: StyleOption;
 } | '';
 
 function capitalize(str: string) {
