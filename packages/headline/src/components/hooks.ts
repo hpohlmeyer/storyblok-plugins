@@ -34,7 +34,7 @@ export function useElementValue(args: UseElementValueArgs) {
   return ref(
     determineElementValue({
       contentValue: toValue(args.contentValue),
-      defaultValue: toValue(args.contentValue),
+      defaultValue: toValue(args.defaultValue),
     }),
   )
 }
