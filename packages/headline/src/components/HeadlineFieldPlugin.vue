@@ -39,6 +39,7 @@ const styleShown = computed(() =>
       :model-value="plugin.data.content"
       :seo-default="plugin.data.options.seoDefault"
       :seo-label="plugin.data.options.seoLabel"
+      :seo-allowed="plugin.data.options.seoAllowed"
       :text-label="plugin.data.options.textLabel"
       :style-default="plugin.data.options.styleDefault"
       :style-label="plugin.data.options.styleLabel"

@@ -17,7 +17,7 @@ import {
   SHADOW_BOTTOM_SIZE,
   STYLE_OPTIONS,
 } from './constants'
-import { parseAllowedStyleValues, validateStyleValue } from './validators'
+import { parseAllowedStyleValues, parseAllowedElementValues, validateStyleValue } from './validators'
 
 const props = defineProps<{
   textLabel?: string
@@ -26,6 +26,7 @@ const props = defineProps<{
   styleDefault?: string
   seoLabel?: string
   seoDefault?: string
+  seoAllowed?: string
   styleShown?: boolean
 }>()
 
@@ -36,6 +37,13 @@ const element = useElementValue({
   contentValue: content.value ? content.value.element : undefined,
   defaultValue: toRef(props.seoDefault),
 })
+
+const allowedElementValues = computed(() =>
+  parseAllowedElementValues(props.seoAllowed),
+)
+const allowedElementOptions = computed(() =>
+  ELEMENT_OPTIONS.filter(({ value }) => allowedElementValues.value.includes(value)),
+)
 
 const allowedStyleValues = computed(() =>
   parseAllowedStyleValues(props.styleAllowed),
@@ -166,7 +174,7 @@ const wrapperVariant = computed(() =>
       @hide="elementIsOpen = false"
       input-id="element-input"
       v-model="element"
-      :options="ELEMENT_OPTIONS"
+      :options="allowedElementOptions"
     />
     <label
       class="element-input__label"
