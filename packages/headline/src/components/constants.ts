@@ -12,7 +12,14 @@ function capitalize(str: string) {
 
 export const SHADOW_BOTTOM_SIZE = 17
 
-export type ElementOption = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+export type ElementOption =
+  | 'h1'
+  | 'h2'
+  | 'h3'
+  | 'h4'
+  | 'h5'
+  | 'h6'
+  | 'paragraph'
 export const ELEMENT_VALUES: Array<ElementOption> = [
   'h1',
   'h2',
@@ -20,6 +27,7 @@ export const ELEMENT_VALUES: Array<ElementOption> = [
   'h4',
   'h5',
   'h6',
+  'paragraph',
 ]
 export const DEFAULT_ELEMENT_VALUE: ElementOption = 'h2'
 export const ELEMENT_OPTIONS = ELEMENT_VALUES.map((value) => ({
