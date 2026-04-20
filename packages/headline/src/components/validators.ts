@@ -27,6 +27,15 @@ export function validateStyleValue(value: unknown, allowedValues: Array<StyleOpt
   return z.enum(allowedValues).safeParse(value);
 }
 
+export function parseAllowedElementValues(value: unknown) {
+  return z.string()
+      .min(1)
+      .transform((value) => value.split(/\s?,\s?/))
+      .pipe(z.array(z.enum(ELEMENT_VALUES)).min(1))
+      .catch(ELEMENT_VALUES)
+      .parse(value);
+}
+
 export function validateElementValue(value: unknown) {
   return z
     .enum(ELEMENT_VALUES)

@@ -27,6 +27,10 @@
     {
       "name": "styleAllowed",
       "value": ""
+    },
+    {
+      "name": "seoAllowed",
+      "value": ""
     }
   ]
 }
